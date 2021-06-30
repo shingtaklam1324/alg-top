@@ -1,5 +1,6 @@
 import topology.continuous_function.basic
 import topology.instances.real
+import topology.path_connected
 
 /-!
 # Paths
@@ -33,11 +34,29 @@ instance : has_coe (path' x₀ x₁) (C(ℝ, X)) := ⟨path'.to_fun⟩
 
 @[continuity] lemma continuous {f : path' x₀ x₁} : continuous f := f.to_fun.continuous_to_fun
 
+/--
+Converting a `path` to a `path'`.
+-/
+def of_path (q : path x₀ x₁) : path' x₀ x₁ :=
+{ to_fun := { to_fun := set.Icc_extend zero_le_one q },
+  to_fun_zero' := by simp,
+  to_fun_one' := by simp }
+
 @[simp] lemma coe_apply (i : ℝ) : (p : C(ℝ, X)) i = p.to_fun i := rfl
 
 @[simp] lemma to_fun_zero : p.to_fun 0 = x₀ := p.to_fun_zero'
 
 @[simp] lemma to_fun_one : p.to_fun 1 = x₁ := p.to_fun_one'
+
+/--
+Converting a `path'` to a `path`. Note that this is a left inverse to `of_path`, but it is *not*
+a right inverse.
+-/
+def to_path : path x₀ x₁ :=
+{ to_fun := λ t, p t,
+  continuous' := by continuity,
+  source' := by simp,
+  target' := by simp }
 
 /--
 The image of a path under a continuous function is a path.
