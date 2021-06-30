@@ -95,6 +95,9 @@ begin
   split_ifs; simp
 end
 
+@[simp] lemma map_comp {Z : Type _} [topological_space Z] (p : path' x₀ x₁) (f : C(X, Y)) (g : C(Y, Z)) :
+  (p.map f).map g = p.map (g.comp f) := rfl
+
 /--
 The constant path in `x`.
 -/

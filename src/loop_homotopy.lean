@@ -1,5 +1,7 @@
 import loop
 import path_homotopy
+import homotopy_equivalence
+import straight_line_homotopy
 
 /-!
 # Homotopy of Loops and the Fundamental Group
@@ -165,7 +167,7 @@ def map {Y : Type _} [topological_space Y] (f : C(X, Y)) : π₁ x₀ →* π₁
 { to_fun := quotient.lift (λ l, ⟦path'.map l f⟧) begin
     rintros a b ⟨h⟩,
     rw [quotient.eq],
-    exact ⟨path_homotopy.map h _⟩,
+    exact ⟨h.map _⟩,
   end,
   map_one' := begin
     rw [one_def, one_def, quotient.lift_mk, quotient.eq],
@@ -177,7 +179,28 @@ def map {Y : Type _} [topological_space Y] (f : C(X, Y)) : π₁ x₀ →* π₁
     intros p q,
     rw [mul_def, quotient.lift_mk, quotient.lift_mk, quotient.lift_mk, mul_def, quotient.eq],
     refine ⟨path_homotopy.of_refl (path'.map_trans _ _ _)⟩,
-  end }
+  end } .
+
+lemma map_comp {Y Z : Type _} [topological_space Y] [topological_space Z] (h : C(X, Y)) (k : C(Y, Z)) :
+  @map _ _ x₀ _ _ (k.comp h) = (map k).comp (map h) :=
+begin
+  ext t,
+  apply quotient.induction_on t,
+  intro a,
+  simp [map],
+end
+
+lemma map_id {Y : Type _} [topological_space Y] (f : C(X, Y)) : 
+  @map _ _ x₀ _ _ continuous_map.id = monoid_hom.id _ :=
+begin
+  ext t,
+  apply quotient.induction_on t,
+  intro a,
+  simp only [map, path'.map, quotient.lift_mk, monoid_hom.id_apply, monoid_hom.coe_mk, quotient.eq],
+  refine ⟨path_homotopy.of_refl _⟩,
+  ext u,
+  refl,
+end
 
 section path_connected
 
