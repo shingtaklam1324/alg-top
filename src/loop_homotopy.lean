@@ -100,6 +100,8 @@ end tactics
 
 open tactics
 
+section defs
+
 /--
 Given a path `α` from `x₀` to `x₁`, we can define a group isomorphism from `π₁ x₀` to `π₁ x₁`.
 -/
@@ -190,7 +192,7 @@ begin
   simp [map],
 end
 
-lemma map_id {Y : Type _} [topological_space Y] (f : C(X, Y)) : 
+@[simp] lemma map_id : 
   @map _ _ x₀ _ _ continuous_map.id = monoid_hom.id _ :=
 begin
   ext t,
@@ -202,6 +204,9 @@ begin
   refl,
 end
 
+end defs
+
+
 section path_connected
 
 variable [path_connected_space X] 
@@ -212,23 +217,6 @@ In a path connected space `X`, for `x₀ x₁ : X`, `π₁ x₀` and `π₁ x₁
 noncomputable def mul_equiv_of_path_connected (x₀ x₁ : X) : 
   π₁ x₀ ≃* π₁ x₁ :=
 change_of_basepoint (path'.of_path (path_connected_space.some_path x₀ x₁))
-
-/--
-A path connected space `X` is simply connected if there is a `x₀` such that `π₁ x₀` is trivial.
--/
-def simply_connected (X : Type _) [topological_space X] [path_connected_space X] := 
-  ∃ x₀ : X, nonempty (π₁ x₀ ≃* unit)
-
-lemma simply_connected_iff_forall : simply_connected X ↔ ∀ x₀ : X, nonempty (π₁ x₀ ≃* unit) :=
-begin
-  split,
-  { rintros ⟨x, ⟨h⟩⟩ y,
-    refine ⟨(mul_equiv_of_path_connected y x).trans h⟩ },
-  { intro h,
-    unfold simply_connected,
-    use nonempty.some path_connected_space.nonempty,
-    apply h }
-end
 
 end path_connected
 

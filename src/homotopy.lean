@@ -41,6 +41,12 @@ def refl (hP : P f₀) : homotopy_with f₀ f₀ P :=
   to_fun_one' := by simp only [continuous_map.coe_mk, implies_true_iff, eq_self_iff_true],
   prop := λ t, hP }
 
+def of_refl (hP : P f₀) (h : f₀ = f₁) : homotopy_with f₀ f₁ P :=
+{ to_fun := { to_fun := λ p, f₀ p.1 },
+  to_fun_zero' := by simp only [continuous_map.coe_mk, implies_true_iff, eq_self_iff_true],
+  to_fun_one' := by simp only [continuous_map.coe_mk, implies_true_iff, eq_self_iff_true, h],
+  prop := λ t, hP }
+
 def symm (h : homotopy_with f₀ f₁ P) : homotopy_with f₁ f₀ P :=
 { to_fun := 
   { to_fun := λ p, h.to_fun ⟨p.1, 1 - p.2⟩ },

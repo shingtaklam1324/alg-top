@@ -17,7 +17,7 @@ end
 instance path_connected_space_of_contractible : path_connected_space X :=
 begin
   refine_struct { nonempty := nonempty_of_contractible },
-  obtain ⟨⟨f, g, ⟨h₁⟩, ⟨h₂⟩⟩⟩ := @contractible.hequiv X _ _,
+  obtain ⟨⟨f, g, h₁, h₂⟩⟩ := @contractible.hequiv X _ _,
   intros x y,
   refine ⟨path'.to_path _⟩,
   have : ∀ t, f t = (),
@@ -42,7 +42,7 @@ begin
   exact _inst_2,
 end .
 
-example : π₁ () ≃* unit :=
+def π₁.unit : π₁ () ≃* unit :=
 { to_fun := λ t, (),
   inv_fun := λ t, 
     ⟦{ to_fun := { to_fun := λ u, () },
