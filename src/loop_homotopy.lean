@@ -77,6 +77,9 @@ quotient.induction_on l (λ p, begin
     refine ⟨path_homotopy.trans_left_inv⟩,
   end)
 
+/--
+The `group` instance for `π₁ x₀`.
+-/
 instance : group (π₁ x₀) := 
 { mul_assoc := mul_assoc,
   one_mul := one_mul,
