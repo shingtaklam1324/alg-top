@@ -118,7 +118,8 @@ def change_of_basepoint {x₀ x₁ : X} (α : path' x₀ x₁) : π₁ x₀ ≃*
     rw [quotient.lift_mk, quotient.lift_mk, quotient.eq],
     refine ⟨homotopy_with.trans 
       (homotopy_with.trans _ (path_homotopy.trans₂ (@path_homotopy.trans_right_inv _ _ _ _ α) 
-        (path_homotopy.trans₂ (path_homotopy.refl _) (@path_homotopy.trans_right_inv _ _ _ _ α)))) (homotopy_with.trans (path_homotopy.trans_const _) (path_homotopy.const_trans _)).symm⟩,
+        (path_homotopy.trans₂ (path_homotopy.refl _) (@path_homotopy.trans_right_inv _ _ _ _ α)))) 
+        (homotopy_with.trans (path_homotopy.trans_const _) (path_homotopy.const_trans _)).symm⟩,
     assocl, assocr,
     refine path_homotopy.trans₂ (path_homotopy.refl _) _,
     assocl, assocl,
@@ -131,7 +132,8 @@ def change_of_basepoint {x₀ x₁ : X} (α : path' x₀ x₁) : π₁ x₀ ≃*
     rw [quotient.lift_mk, quotient.lift_mk, quotient.eq],
     refine ⟨homotopy_with.trans 
       (homotopy_with.trans _ (path_homotopy.trans₂ (@path_homotopy.trans_left_inv _ _ _ _ α) 
-        (path_homotopy.trans₂ (path_homotopy.refl _) (@path_homotopy.trans_left_inv _ _ _ _ α)))) (homotopy_with.trans (path_homotopy.trans_const _) (path_homotopy.const_trans _)).symm⟩,
+        (path_homotopy.trans₂ (path_homotopy.refl _) (@path_homotopy.trans_left_inv _ _ _ _ α)))) 
+        (homotopy_with.trans (path_homotopy.trans_const _) (path_homotopy.const_trans _)).symm⟩,
     assocl, assocr,
     refine path_homotopy.trans₂ (path_homotopy.refl _) _,
     assocl, assocl,
