@@ -85,7 +85,7 @@ def const (x : X) : path' x x :=
   to_fun_zero' := by simp,
   to_fun_one' := by simp }
 
-@[simp] lemma map_const (x : X) (f : C(X, Y)) : (const x).map f = const (f x) :=
+@[simp] lemma const_map (x : X) (f : C(X, Y)) : (const x).map f = const (f x) :=
 begin
   ext,
   simp [const],

@@ -34,6 +34,13 @@ end
 
 def refl (f₀ : path' x₀ x₁) : path_homotopy f₀ f₀ := homotopy_with.refl (by simp)
 
+def of_refl {f₀ f₁ : path' x₀ x₁} (h : f₀ = f₁) : path_homotopy f₀ f₁ := 
+{ to_fun := 
+  { to_fun := λ p : ℝ × ℝ, f₀.to_fun (prod.fst p) },
+  to_fun_zero' := by simp [h],
+  to_fun_one' := by simp [h],
+  prop := by simp [h] }
+
 def map (h : path_homotopy f₀ f₁) (f : C(X, Y)) : path_homotopy (f₀.map f) (f₁.map f) :=
 { to_fun := f.comp h.to_fun,
   to_fun_zero' := by simp,
