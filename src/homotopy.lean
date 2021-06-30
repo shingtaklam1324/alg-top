@@ -5,19 +5,25 @@ import intervals
 
 /-!
 # Homotopy
+
+In this file, we define homotopies between continuous functions. Note in particular that we are
+defining homotopies to be `to_fun : C(X × ℝ, Y)` instead of `to_fun : C(X × I, Y)`. This is because
+of the subtypes can be annoying to work with, and we don't actually care about the value that the
+homotopy takes outside of `X × [0, 1]`.
 -/
 
 noncomputable theory
-open_locale unit_interval
 
 variables {X Y : Type _} [topological_space X] [topological_space Y]
 
+/--
+A homotopy between `f₀` and `f₁`, with a proposition `P` restricting the intermediate maps.
+-/
 structure homotopy_with (f₀ f₁ : C(X, Y)) (P : (X → Y) → Prop) :=
 (to_fun : C(X × ℝ, Y))
 (to_fun_zero' : ∀ x, to_fun (x, 0) = f₀ x)
 (to_fun_one' : ∀ x, to_fun (x, 1) = f₁ x)
 (prop : ∀ t, P(λ x, to_fun (x, t)))
--- (prop : ∀ t, 0 ≤ t → t ≤ 1 → P(λ x, to_fun (x, t)))
 
 namespace homotopy_with
 
