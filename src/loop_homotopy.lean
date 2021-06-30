@@ -179,4 +179,34 @@ def map {Y : Type _} [topological_space Y] (f : C(X, Y)) : π₁ x₀ →* π₁
     refine ⟨path_homotopy.of_refl (path'.map_trans _ _ _)⟩,
   end }
 
+section path_connected
+
+variable [path_connected_space X] 
+
+/--
+In a path connected space `X`, for `x₀ x₁ : X`, `π₁ x₀` and `π₁ x₁` are isomorphic.
+-/
+noncomputable def mul_equiv_of_path_connected (x₀ x₁ : X) : 
+  π₁ x₀ ≃* π₁ x₁ :=
+change_of_basepoint (path'.of_path (path_connected_space.some_path x₀ x₁))
+
+/--
+A path connected space `X` is simply connected if there is a `x₀` such that `π₁ x₀` is trivial.
+-/
+def simply_connected (X : Type _) [topological_space X] [path_connected_space X] := 
+  ∃ x₀ : X, nonempty (π₁ x₀ ≃* unit)
+
+lemma simply_connected_iff_forall : simply_connected X ↔ ∀ x₀ : X, nonempty (π₁ x₀ ≃* unit) :=
+begin
+  split,
+  { rintros ⟨x, ⟨h⟩⟩ y,
+    refine ⟨(mul_equiv_of_path_connected y x).trans h⟩ },
+  { intro h,
+    unfold simply_connected,
+    use nonempty.some path_connected_space.nonempty,
+    apply h }
+end
+
+end path_connected
+
 end π₁
