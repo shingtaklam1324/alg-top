@@ -1,7 +1,16 @@
 import homotopy_group.basic
 
+/-!
+# The fundamental group of a point
+
+In this file, we prove that the fundamental group of `() : unit` is trivial.
+-/
+
 noncomputable theory
 
+/--
+The isomorphism between `π₁ ()` and `unit`.
+-/
 def unit.π₁ : π₁ () ≃* unit :=
 { to_fun := λ t, (),
   inv_fun := λ t, 

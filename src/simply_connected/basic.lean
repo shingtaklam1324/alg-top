@@ -1,5 +1,11 @@
 import homotopy_group.basic
 
+/-!
+# Simply Connected Spaces
+
+In this file, we define what it means for a path connected space to be simply connected.
+-/
+
 variables {X : Type _} [topological_space X] [path_connected_space X]
 
 /--

@@ -2,6 +2,12 @@ import contractible.basic
 import homotopy.straight_line
 import analysis.normed_space.basic
 
+/-!
+# Instances on finite dimensional `ℝ`-vector spaces
+
+In this file, we prove that for a `fintype` `ι`, `ι → ℝ` is contractible.
+-/
+
 noncomputable theory
 
 variables {ι : Type _} [fintype ι]

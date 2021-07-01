@@ -150,4 +150,7 @@ begin
     refl }
 end
 
+lemma map_homotopy_to_monoid_hom {Y : Type _} [topological_space Y] (h : homotopy_equiv X Y) :
+  (map_homotopy h).to_monoid_hom = @map _ _ x₀ _ _ (h : C(X, Y)) := rfl
+
 end π₁
