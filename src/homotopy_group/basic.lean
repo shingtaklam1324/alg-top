@@ -1,17 +1,30 @@
 import homotopy.loop
+import homotopy.tactic
+
+/-!
+# The Fundamental Group of a Topological Space
+
+In this file, we define the fundamental group `π₁ x₀` of a topological space `X` based at `x₀`.
+-/
 
 noncomputable theory
 
 variables {X : Type _} [topological_space X]
+
 /--
 For `x₀ : X`, `π₁ x₀` is the fundamental group of `X` based at `x₀`.
 -/
+@[nolint has_inhabited_instance] -- I think it might be always inhabited? But I'm not sure.
 def π₁ (x₀ : X) := quotient (@loop.setoid _ _ x₀)
 
 namespace π₁
 
 variables {x₀ : X}
 
+/--
+Multiplication of elements in `π₁ x₀` is defined by joining the paths of an element of the
+homotopy class.
+-/
 def mul (l₀ l₁ : π₁ x₀) : π₁ x₀ := quotient.lift₂ (λ l l' : loop x₀, quotient.mk (l.trans l')) 
   begin
     rintros p₁ p₂ q₁ q₂ ⟨h₁⟩ ⟨h₂⟩,
@@ -19,8 +32,15 @@ def mul (l₀ l₁ : π₁ x₀) : π₁ x₀ := quotient.lift₂ (λ l l' : loo
     exact ⟨path_homotopy.trans₂ h₁ h₂⟩,
   end l₀ l₁
 
+/--
+The identity in `π₁ x₀` is the homotopy class of the coonstant path.
+-/
 def one : π₁ x₀ := quotient.mk (path'.const x₀)
 
+/--
+The inverse of an element `l` of `π₁ x₀` is defined by taking the inverse of an element of the
+equivalence class.
+-/
 def inv (l : π₁ x₀) : π₁ x₀ := quotient.lift (λ l', quotient.mk (path'.inv l')) 
   begin
     rintros p₁ p₂ ⟨h₁⟩,
@@ -70,18 +90,9 @@ instance : group (π₁ x₀) :=
   mul_left_inv := mul_left_inv,
   ..π₁.has_mul, ..π₁.has_inv, ..π₁.has_one }
 
-namespace tactics
-
-meta def assocl : tactic unit := `[refine homotopy_with.trans path_homotopy.assoc _]
-meta def assocl' : tactic unit := `[refine homotopy_with.trans path_homotopy.assoc.symm _]
-meta def assocr' : tactic unit := `[refine homotopy_with.trans _ path_homotopy.assoc]
-meta def assocr : tactic unit := `[refine homotopy_with.trans _ path_homotopy.assoc.symm]
-
-end tactics
-
-open tactics
-
 section defs
+
+open path_homotopy.tactic
 
 /--
 Given a path `α` from `x₀` to `x₁`, we can define a group isomorphism from `π₁ x₀` to `π₁ x₁`.
@@ -108,7 +119,7 @@ def change_of_basepoint {x₀ x₁ : X} (α : path' x₀ x₁) : π₁ x₀ ≃*
       (homotopy_with.trans _ (path_homotopy.trans₂ (@path_homotopy.trans_right_inv _ _ _ _ α) 
         (path_homotopy.trans₂ (path_homotopy.refl _) (@path_homotopy.trans_right_inv _ _ _ _ α)))) 
         (homotopy_with.trans (path_homotopy.trans_const _) (path_homotopy.const_trans _)).symm⟩,
-    assocl, assocr,
+    assocl, assocr',
     refine path_homotopy.trans₂ (path_homotopy.refl _) _,
     assocl, assocl,
     exact path_homotopy.refl _,
@@ -122,7 +133,7 @@ def change_of_basepoint {x₀ x₁ : X} (α : path' x₀ x₁) : π₁ x₀ ≃*
       (homotopy_with.trans _ (path_homotopy.trans₂ (@path_homotopy.trans_left_inv _ _ _ _ α) 
         (path_homotopy.trans₂ (path_homotopy.refl _) (@path_homotopy.trans_left_inv _ _ _ _ α)))) 
         (homotopy_with.trans (path_homotopy.trans_const _) (path_homotopy.const_trans _)).symm⟩,
-    assocl, assocr,
+    assocl, assocr',
     refine path_homotopy.trans₂ (path_homotopy.refl _) _,
     assocl, assocl,
     refine path_homotopy.trans₂ (path_homotopy.refl _) _,
@@ -143,7 +154,7 @@ def change_of_basepoint {x₀ x₁ : X} (α : path' x₀ x₁) : π₁ x₀ ≃*
       (path_homotopy.refl _)) path_homotopy.assoc⟩,
   end }
 
-/-
+/--
 Given a continuous function `f : C(X, Y)`, we have a group homomorphism from `π₁ x₀` to `π₁ (f x₀)`.
 -/
 def map {Y : Type _} [topological_space Y] (f : C(X, Y)) : π₁ x₀ →* π₁ (f x₀) :=
