@@ -1,6 +1,4 @@
-import loop_homotopy
-import contractible
-import homotopy_isomorphism
+import homotopy_group.basic
 
 variables {X : Type _} [topological_space X] [path_connected_space X]
 
@@ -20,21 +18,3 @@ begin
     use nonempty.some path_connected_space.nonempty,
     apply h }
 end
-
-section contractible
-
-variables [contractible X]
-
-instance simply_connected_of_contractible : simply_connected X :=
-begin
-  rw simply_connected_iff_forall,
-  intros x₀,
-  refine ⟨mul_equiv.trans _ π₁.unit⟩,
-  let h : homotopy_equivalence X unit := nonempty.some (contractible.hequiv),
-  have := @π₁.map_homotopy _ _ x₀ _ _ h,
-  convert this,
-  cases h.to_fun x₀,
-  refl,
-end
-
-end contractible

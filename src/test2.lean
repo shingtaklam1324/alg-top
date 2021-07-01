@@ -1,5 +1,5 @@
 import instances.real_vector_space
-import simply_connected
+import contractible.simply_connected
 
 variables {ι : Type _} [fintype ι]
 

@@ -1,10 +1,10 @@
-import homotopy_equivalence
-import loop_homotopy
+import homotopy.equiv
+import homotopy.loop
 
 noncomputable theory
 
-class contractible (X : Type _) [topological_space X] :=
-(hequiv : homotopy_equivalent X unit)
+class contractible (X : Type _) [topological_space X] : Prop :=
+(hequiv : nonempty (homotopy_equiv X unit))
 
 variables {X : Type _} [topological_space X] [contractible X] {x₀ : X}
 
@@ -41,25 +41,6 @@ begin
   recover,
   exact _inst_2,
 end .
-
-def π₁.unit : π₁ () ≃* unit :=
-{ to_fun := λ t, (),
-  inv_fun := λ t, 
-    ⟦{ to_fun := { to_fun := λ u, () },
-       to_fun_zero' := rfl,
-       to_fun_one' := rfl }⟧,
-  left_inv := begin
-    intro a,
-    apply quotient.induction_on a,
-    intro t,
-    rw quotient.eq,
-    refine ⟨path_homotopy.of_refl _⟩,
-    ext w,
-  end,
-  right_inv := λ a, begin
-    cases a, refl,
-  end,
-  map_mul' := λ a b, rfl }
 
 -- example : π₁ x₀ ≃* unit :=
 -- _

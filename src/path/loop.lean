@@ -1,4 +1,4 @@
-import path
+import path.defs
 
 variables {X : Type _} [topological_space X]
 

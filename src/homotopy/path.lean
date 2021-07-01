@@ -1,6 +1,6 @@
-import homotopy
+import homotopy.basic
 import topology.path_connected
-import path
+import path.defs
 import intervals
 
 noncomputable theory

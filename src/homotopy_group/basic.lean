@@ -1,35 +1,16 @@
-import loop
-import path_homotopy
-import homotopy_equivalence
-import straight_line_homotopy
-
-/-!
-# Homotopy of Loops and the Fundamental Group
-
-In this file we define what it means for two `loop`s to be homotopic, show that this is an
-equivalence relation, and show that the quotient has a group structure.
--/
+import homotopy.loop
 
 noncomputable theory
 
-variables {X : Type _} [topological_space X] {x₀ : X}
-
-abbreviation loop_homotopy (l₀ l₁ : loop x₀) := path_homotopy l₀ l₁
-
-def loop_homotopic (l₀ l₁ : loop x₀) := nonempty (loop_homotopy l₀ l₁)
-
-lemma loop_homotopic.equiv : equivalence (@loop_homotopic _ _ x₀) := path_homotopic.equiv
-
-instance loop.setoid : setoid (loop x₀) :=
-{ r := loop_homotopic,
-  iseqv := loop_homotopic.equiv }
-
+variables {X : Type _} [topological_space X]
 /--
 For `x₀ : X`, `π₁ x₀` is the fundamental group of `X` based at `x₀`.
 -/
 def π₁ (x₀ : X) := quotient (@loop.setoid _ _ x₀)
 
 namespace π₁
+
+variables {x₀ : X}
 
 def mul (l₀ l₁ : π₁ x₀) : π₁ x₀ := quotient.lift₂ (λ l l' : loop x₀, quotient.mk (l.trans l')) 
   begin
@@ -205,7 +186,6 @@ begin
 end
 
 end defs
-
 
 section path_connected
 

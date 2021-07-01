@@ -1,5 +1,5 @@
 import analysis.convex.basic
-import homotopy
+import homotopy.basic
 
 noncomputable theory
 

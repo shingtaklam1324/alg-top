@@ -1,7 +1,6 @@
-import contractible
-import straight_line_homotopy
+import contractible.basic
+import homotopy.straight_line
 import analysis.normed_space.basic
-import homotopy_isomorphism
 
 noncomputable theory
 
@@ -17,4 +16,4 @@ instance real_vector_space.contractible : contractible (ι → ℝ) :=
         { to_fun := λ p, () },
          to_fun_zero' := by norm_num,
          to_fun_one' := by norm_num,
-         prop := λ t, trivial } }⟩ }
+         prop := λ t, trivial } }⟩ } .

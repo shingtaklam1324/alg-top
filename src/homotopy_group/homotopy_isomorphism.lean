@@ -1,5 +1,5 @@
-import loop_homotopy
-import homotopy_equivalence
+import homotopy_group.basic
+import homotopy.equiv
 
 noncomputable theory
 
@@ -86,7 +86,7 @@ begin
   exact ⟨(change_of_basepoint_comp_map_eq_map_aux l h).symm⟩,
 end .
 
-private lemma bij_helper₁ {x₀ : X} (h : homotopy_equivalence X Y) : 
+private lemma bij_helper₁ {x₀ : X} (h : homotopy_equiv X Y) : 
   (π₁.map h.inv_fun).comp (π₁.map h.to_fun : π₁ x₀ →* _) = 
     (@π₁.change_of_basepoint _ _ x₀ _ (homotopy.path h.left_inv.symm)).to_monoid_hom :=
 calc (π₁.map h.inv_fun).comp (π₁.map h.to_fun : π₁ x₀ →* _) = 
@@ -94,10 +94,10 @@ calc (π₁.map h.inv_fun).comp (π₁.map h.to_fun : π₁ x₀ →* _) =
     (π₁.map continuous_map.id) : by rw [change_of_basepoint_comp_map_eq_map, π₁.map_comp]
                        ... = _ : by { ext, simp [continuous_map.id_apply] } .
 
-private def u (h : homotopy_equivalence X Y) : path' (h.to_fun x₀) (h.to_fun (h.inv_fun (h.to_fun x₀))) :=
+private def u (h : homotopy_equiv X Y) : path' (h.to_fun x₀) (h.to_fun (h.inv_fun (h.to_fun x₀))) :=
   homotopy.path (h.right_inv.symm)
 
-private lemma bij_helper₂ {x₀ : X} (h : homotopy_equivalence X Y) :
+private lemma bij_helper₂ {x₀ : X} (h : homotopy_equiv X Y) :
   (@π₁.change_of_basepoint _ _ (h.to_fun x₀) _ (u h)).to_monoid_hom = 
     (π₁.map h.to_fun).comp (π₁.map h.inv_fun : π₁ _ →* _) :=
 calc (@π₁.change_of_basepoint _ _ (h.to_fun x₀) _ (u h)).to_monoid_hom =
@@ -106,7 +106,7 @@ calc (@π₁.change_of_basepoint _ _ (h.to_fun x₀) _ (u h)).to_monoid_hom =
   ... = (π₁.map h.to_fun).comp (π₁.map h.inv_fun : π₁ _ →* _) : 
     by { rw [u, change_of_basepoint_comp_map_eq_map, π₁.map_comp] } .
 
-def map_homotopy {Y : Type _} [topological_space Y] (h : homotopy_equivalence X Y) : 
+def map_homotopy {Y : Type _} [topological_space Y] (h : homotopy_equiv X Y) : 
   π₁ x₀ ≃* π₁ (h.to_fun x₀) :=
   mul_equiv.of_bijective (π₁.map h.to_fun)
 begin
