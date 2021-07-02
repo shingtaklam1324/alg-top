@@ -1,5 +1,7 @@
-import linear_algebra.free_module linear_algebra.std_basis data.real.basic
-import ring_theory.principal_ideal_domain
+import topology.continuous_function.basic
 
-localized "notation `vector_space` := module" in vector_space'
-open_locale vector_space'
+variables {X : Type _} [topological_space X] {x : X}
+
+@[simp] lemma id_coe : (continuous_map.id : X → X) = id := rfl
+
+example : continuous_map.id x = x := by simp
