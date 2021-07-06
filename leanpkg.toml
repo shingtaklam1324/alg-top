@@ -1,8 +1,8 @@
 [package]
 name = "algebraic-topology"
 version = "0.1"
-lean_version = "leanprover-community/lean:3.30.0"
+lean_version = "leanprover-community/lean:3.31.0"
 path = "src"
 
 [dependencies]
-mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "07f1235dbf45b6c74fa8f0695213a2bf2b7130a0"}
+mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "98e8408ac78f3dedc6a2f3d2fec89a39b5ce20f0"}

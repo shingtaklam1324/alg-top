@@ -34,8 +34,8 @@ A homeomorphism is a homotopy equivalence.
 def of_homeomorph (h : homeomorph X Y) : homotopy_equiv X Y :=
 { to_fun := { to_fun := h },
   inv_fun := { to_fun := h.symm },
-  left_inv := ⟨homotopy.of_refl (by { ext, simp [continuous_map.id_apply] })⟩,
-  right_inv := ⟨homotopy.of_refl (by { ext, simp [continuous_map.id_apply] })⟩ } .
+  left_inv := ⟨homotopy.of_refl (by { ext, simp })⟩,
+  right_inv := ⟨homotopy.of_refl (by { ext, simp })⟩ } .
 
 def symm (h : homotopy_equiv X Y) : homotopy_equiv Y X :=
 { to_fun := h.inv_fun,

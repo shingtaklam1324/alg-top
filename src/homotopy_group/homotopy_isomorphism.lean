@@ -103,7 +103,7 @@ private lemma bij_helper₁ {x₀ : X} (h : homotopy_equiv X Y) :
 calc (π₁.map h.inv_fun).comp (π₁.map h.to_fun : π₁ x₀ →* _) = 
   (@π₁.change_of_basepoint _ _ x₀ _ (homotopy.path h.left_inv.some.symm)).to_monoid_hom.comp 
     (π₁.map continuous_map.id) : by rw [change_of_basepoint_comp_map_eq_map, π₁.map_comp]
-                       ... = _ : by { ext, simp [continuous_map.id_apply] } .
+                       ... = _ : by { ext, simp } .
 
 private def u (h : homotopy_equiv X Y) : path' (h x₀) (h (h.symm (h x₀))) :=
   homotopy.path (h.right_inv.some.symm)
@@ -113,7 +113,7 @@ private lemma bij_helper₂ {x₀ : X} (h : homotopy_equiv X Y) :
     (π₁.map (h : C(X, Y))).comp (π₁.map (h.symm : C(Y, X)) : π₁ _ →* _) :=
 calc (@π₁.change_of_basepoint _ _ (h.to_fun x₀) _ (u h)).to_monoid_hom =
   (@π₁.change_of_basepoint _ _ (h.to_fun x₀) _ (u h)).to_monoid_hom.comp 
-    (π₁.map continuous_map.id) : by { ext, simp [continuous_map.id_apply], }
+    (π₁.map continuous_map.id) : by { ext, simp }
   ... = (π₁.map h.to_fun).comp (π₁.map h.inv_fun : π₁ _ →* _) : 
     by { rw [u, change_of_basepoint_comp_map_eq_map, π₁.map_comp] } .
 
