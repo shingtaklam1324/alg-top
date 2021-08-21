@@ -43,6 +43,14 @@ def symm (h : homotopy_equiv X Y) : homotopy_equiv Y X :=
   left_inv := h.right_inv,
   right_inv := h.left_inv }
 
+variables {Z : Type _} [topological_space Z]
+
+def trans (h₀ : homotopy_equiv X Y) (h₁ : homotopy_equiv Y Z) : homotopy_equiv X Z :=
+{ to_fun := h₁.to_fun.comp h₀.to_fun,
+  inv_fun := h₀.inv_fun.comp h₁.inv_fun,
+  left_inv := sorry,
+  right_inv := sorry }
+
 end homotopy_equiv
 
 /--

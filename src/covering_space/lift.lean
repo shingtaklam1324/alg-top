@@ -1,9 +1,8 @@
 import covering_space.def
-import locally_path_connected
 
 variables {X X' Y : Type _} [topological_space X] [topological_space X'] [topological_space Y] 
 
-lemma is_open_f₀_eq_f₁ (p : C(X', X)) (hp : is_covering_map p) (f : C(Y, X)) (f₀ f₁ : C(Y, X')) 
+lemma is_open_f₀_eq_f₁ {p : C(X', X)} (hp : is_covering_map p) {f : C(Y, X)} {f₀ f₁ : C(Y, X')} 
   (hf₀ : p.comp f₀ = f) (hf₁ : p.comp f₁ = f) :
   is_open {y | f₀ y = f₁ y} :=
 begin
@@ -40,7 +39,7 @@ begin
     rwa [set.mem_preimage, ←hy] }
 end
 
-lemma is_closed_f₀_eq_f₁ (p : C(X', X)) (hp : is_covering_map p) (f : C(Y, X)) (f₀ f₁ : C(Y, X')) 
+lemma is_closed_f₀_eq_f₁ {p : C(X', X)} (hp : is_covering_map p) {f : C(Y, X)} {f₀ f₁ : C(Y, X')} 
   (hf₀ : p.comp f₀ = f) (hf₁ : p.comp f₁ = f) :
   is_closed {y | f₀ y = f₁ y} :=
 begin
@@ -76,4 +75,17 @@ begin
         hf₁] },
   { rwa hp'₀ },
   { rwa [hp'₀, hVeq] }
+end
+
+variable [connected_space Y]
+
+lemma lift_unique (p : C(X', X)) (hp : is_covering_map p) (f : C(Y, X)) (f₀ f₁ : C(Y, X')) 
+  (hf₀ : p.comp f₀ = f) (hf₁ : p.comp f₁ = f) (y₀ : Y) (hy₀ : f₀ y₀ = f₁ y₀) (y : Y) :
+  f₀ y = f₁ y :=
+begin
+  let S := {y | f₀ y = f₁ y},
+  suffices : S = set.univ,
+  { rw set.eq_univ_iff_forall at this,
+    exact this y },
+  exact eq_univ_of_nonempty_clopen ⟨y₀, hy₀⟩ ⟨is_open_f₀_eq_f₁ hp hf₀ hf₁, is_closed_f₀_eq_f₁ hp hf₀ hf₁⟩,
 end

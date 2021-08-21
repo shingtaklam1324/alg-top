@@ -2,6 +2,13 @@ import data.real.pi
 
 open_locale real
 
+example : (⋃ (n : ℤ), set.Ioo (n * (2 * π) - (π / 2) : ℝ) (n * (2 * π) + (π / 2) : ℝ)) ∪
+  (⋃ (n : ℤ), set.Icc (n * (2 * π) + (π / 2) : ℝ) (n * (2 * π) + (3 * π/2) : ℝ)) = set.univ :=
+begin
+  rw set.eq_univ_iff_forall,
+  intro x,
+end
+
 lemma cos_pos_iff (t : ℝ) : real.cos t > 0 ↔ 
   t ∈ ⋃ (n : ℤ), set.Ioo (n * (2 * π) - (π / 2) : ℝ) (n * (2 * π) + (π / 2) : ℝ) :=
 sorry
