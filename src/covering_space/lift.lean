@@ -125,10 +125,27 @@ begin
   let I : set ℝ := set.Icc 0 1,
   have hIcompact : is_compact I := is_compact_Icc,
   rcases lebesgue_number_lemma_sUnion hIcompact hVopen (hVcover.symm ▸ set.subset_univ _) with 
-    ⟨n, hnunif, hn⟩,
-  rw metric.mem_uniformity_dist at hnunif,
-  rcases hnunif with ⟨ε, hεpos, hε⟩,
+    ⟨ns, hnsunif, hns⟩,
+  rw metric.mem_uniformity_dist at hnsunif,
+  rcases hnsunif with ⟨ε, hεpos, hε⟩,
   -- Let k = 1/(N + 1) < ε. 
   rcases exists_nat_one_div_lt hεpos with ⟨N, hN⟩,
   -- Then note that each [nk, (n + 1)k] is contained in some element of `Vs`
+  let k : ℝ := 1 / (N + 1),
+  have hk : ∀ n < N, ∃ U ∈ Us, f '' set.Icc (n * k) ((n + 1) * k) ⊆ U,
+  { rintro n hnN,
+    have : (n : ℝ) * k ∈ I,
+    { split,
+      { apply mul_nonneg (nat.cast_nonneg n),
+        rw one_div_nonneg,
+        linarith [@nat.cast_nonneg ℝ _ N] },
+      { change k with 1 / ((N : ℝ) + 1),
+        rw [mul_one_div, div_le_one],
+        { norm_cast, linarith },
+        { linarith [@nat.cast_nonneg ℝ _ N] } } },
+    rcases hns _ this with ⟨V, ⟨U, hU, rfl⟩, hV₂⟩,
+    use [U, hU],
+    sorry
+     }
+  -- Now we define a function `f' : R → X'`, by constructing it consecutively. 
 end
