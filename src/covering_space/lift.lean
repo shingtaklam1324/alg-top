@@ -77,6 +77,8 @@ begin
   { rwa [hp'₀, hVeq] }
 end
 
+section
+
 variable [connected_space Y]
 
 lemma lift_unique (p : C(X', X)) (hp : is_covering_map p) (f : C(Y, X)) (f₀ f₁ : C(Y, X')) 
@@ -88,4 +90,45 @@ begin
   { rw set.eq_univ_iff_forall at this,
     exact this y },
   exact eq_univ_of_nonempty_clopen ⟨y₀, hy₀⟩ ⟨is_open_f₀_eq_f₁ hp hf₀ hf₁, is_closed_f₀_eq_f₁ hp hf₀ hf₁⟩,
+end
+
+end
+
+-- example (p : C(X', X)) (hp : is_covering_map p) (h : C(Y × ℝ, X)) (f₀ : C(Y, X')) (heq : ∀ y, h (y, 0) = p (f₀ y)) :
+--   ∃ k : C(Y × ℝ, X'), (∀ y, k (y, 0) = f₀ y) ∧ (∀ z, h z = p (k z)) :=
+-- begin
+--   have : ∀ y, ∃ (V : set Y) (k : C(Y × ℝ, X')), is_open V ∧ y ∈ V ∧ (∀ z ∈ V, k (z, 0) = f₀ z) ∧ (∀ z, h z = p (k z)),
+--   {  }
+-- end
+
+example (p : C(X', X)) (hp : is_covering_map p) (x₀' : X') (x₀ : X) (hp₀ : p x₀' = x₀) (f : C(ℝ, X)) 
+  (hf : f 0 = x₀) : true :=
+begin
+  -- First, we obtain an open cover of X
+  let Us := set.range hp.U,
+  have hUopen : ∀ U ∈ Us, is_open U,
+  { rintro U ⟨t, rfl⟩,
+    exact hp.is_open_U _ },
+  -- The preimage of each of the sets will be an open cover of ℝ
+  let Vs := (λ t, f ⁻¹' t) '' Us,
+  have hVopen : ∀ V ∈ Vs, is_open V,
+  { rintro V ⟨U, hU₁, rfl⟩,
+    exact f.continuous.is_open_preimage U (hUopen _ hU₁) },
+  have hVcover : ⋃₀ Vs = set.univ,
+  { rw set.eq_univ_iff_forall,
+    intros x,
+    let U := hp.U (f x),
+    let V := f ⁻¹' U,
+    refine ⟨V, ⟨U, ⟨f x, rfl⟩, rfl⟩, hp.mem_U _⟩ },
+  -- Using the Lebesgue number lemma, we have some ε > 0 such that intervals of length < ε 
+  -- (contained in I) are contained in some element of `Vs`
+  let I : set ℝ := set.Icc 0 1,
+  have hIcompact : is_compact I := is_compact_Icc,
+  rcases lebesgue_number_lemma_sUnion hIcompact hVopen (hVcover.symm ▸ set.subset_univ _) with 
+    ⟨n, hnunif, hn⟩,
+  rw metric.mem_uniformity_dist at hnunif,
+  rcases hnunif with ⟨ε, hεpos, hε⟩,
+  -- Let k = 1/(N + 1) < ε. 
+  rcases exists_nat_one_div_lt hεpos with ⟨N, hN⟩,
+  -- Then note that each [nk, (n + 1)k] is contained in some element of `Vs`
 end
